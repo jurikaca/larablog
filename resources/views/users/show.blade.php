@@ -1,3 +1,6 @@
+<?php
+use Illuminate\Support\Facades\Auth;
+?>
 @extends('layouts.app')
 @section('content')
 
@@ -6,7 +9,7 @@
         <div class="container">
             <div class="col-sm-8">
                 <h1>{{ $user->name }}</h1>
-                <p>{{ $user->role->name }}</p>
+                <p>{{ $user->role->name }} @if(Auth::check() && $user->id === auth()->user()->id) (<small>{{ $user_views.' page views' }}</small>) @endif</p>
                 @if ($user->blog->count() > 0) <button class="btn btn-primary btn-xs">{{ $user->blog->count() }} Blogs</button> @endif
             </div>
             <div class="col-sm-4">

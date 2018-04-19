@@ -8,7 +8,7 @@
             <div class="container">
                 <div class="col-sm-8">
                     <h1>Hello, {{ Auth::user()->name }}</h1>
-                    <p>{{ Auth::user()->role->name }}</p>
+                    <p>{{ Auth::user()->role->name }} (<small>{{ $user_views.' page views' }}</small>)</p>
 
                     @if (Auth::user()->role->id == 2)
                         <button class="btn btn-primary link btn-xs"><a style="color:#fff;" href="{{ url('/blog/create') }}">Create Blog</a></button>

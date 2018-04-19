@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
-
 use App\Role;
-
 use App\Photo;
-
 use Carbon\Carbon;
+use App\UserView;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +19,7 @@ class UserController extends Controller
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
         $this->middleware('admin', ['only' => ['userslist', 'destroy']]);
+        $this->middleware('user_view', ['only' => ['show']]);
     }
     /**
      * Display a listing of the resource.
@@ -31,7 +30,8 @@ class UserController extends Controller
     {
         $users = User::all();
         $roles = Role::pluck('name' ,'id');
-        return view('users.index', compact('users', 'roles'));
+        $user_views = UserView::where(['user_id' => Auth::user()->id])->count();
+        return view('users.index', compact('users', 'roles', 'user_views'));
     }
 
     public function test()
@@ -78,7 +78,11 @@ class UserController extends Controller
     public function show($username)
     {
         $user = User::whereUsername($username)->first();
-        return view('users.show', ['user' => $user]);
+        return view('users.show',
+            [
+                'user' => $user,
+                'user_views' => UserView::where(['user_id' => $user->id])->count()
+            ]);
     }
 
     /**

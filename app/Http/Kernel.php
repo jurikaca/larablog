@@ -55,5 +55,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\isAdmin::class,
         'author' => \App\Http\Middleware\isAuthor::class,
         'both' => \App\Http\Middleware\isBoth::class,
+        'client_request' => \App\Http\Middleware\saveRequestDetails::class,
+        'user_view' => \App\Http\Middleware\UserView::class,
     ];
 }
